@@ -172,7 +172,7 @@ data_sources = []
 source_names = []
 
 # 1. Auto-Load from Folder
-if os.path.exists(AUTO_LOAD_DIR):
+if AUTO_LOAD_DIR and os.path.exists(AUTO_LOAD_DIR):
     local_files = glob.glob(os.path.join(AUTO_LOAD_DIR, "*.csv"))
     if local_files:
         st.success(f"📂 Auto-loaded {len(local_files)} files from: `{AUTO_LOAD_DIR}`")
@@ -182,7 +182,10 @@ if os.path.exists(AUTO_LOAD_DIR):
     else:
         st.warning(f"📂 Folder found but empty: `{AUTO_LOAD_DIR}`")
 else:
-    st.info(f"📂 Auto-load folder not found: `{AUTO_LOAD_DIR}`")
+    if AUTO_LOAD_DIR:
+        st.info(f"📂 Auto-load folder not found: `{AUTO_LOAD_DIR}`")
+    else:
+        st.info("ℹ️ Cloud Mode: Upload files manually via the uploader below.")
 
 # 2. Manual Upload
 uploaded_files = st.file_uploader("Attach Additional Data Source (CSV)", type=['csv'], accept_multiple_files=True)
